@@ -2,11 +2,11 @@
   "name": "nexusvoice",
   "version": "1.0.0",
   "description": "A privacy-conscious desktop voice assistant with safe local tools and optional AI providers.",
-  "main": "dist-electron/main.js",
+  "main": "dist-electron/electron/main.js",
   "author": "quynhthuan2014-crypto",
   "license": "NexusVoice Source Available License",
   "scripts": {
-    "dev": "concurrently -k \"tsc -p tsconfig.electron.json --watch\" \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "dev": "concurrently -k \"tsc -p tsconfig.electron.json --watch\" \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
     "build": "tsc -p tsconfig.electron.json && vite build",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.electron.json --noEmit",
     "test": "vitest run",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/node": "^24.0.0",
     "concurrently": "^9.2.0",
+    "cross-env": "^10.0.0",
     "electron-builder": "^26.0.0",
     "typescript": "^5.9.0",
     "vite": "^7.1.0",
