@@ -1,10 +1,8 @@
 import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { calculateExpression, parseCommand } from '../src/shared/commands';
 
-const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function createWindow() {
@@ -61,9 +59,8 @@ ipcMain.handle('run-command', async (_event, text: unknown) => {
   }
   const command = parseCommand(text);
   if (command.kind === 'open-url') {
-    return ipcMain.listenerCount('open-url') > 0
-      ? (await shell.openExternal(command.url), { ok: true, message: `Đã mở ${command.label}.` })
-      : { ok: false, message: 'Tool mở web chưa sẵn sàng.' };
+    await shell.openExternal(command.url);
+    return { ok: true, message: `Đã mở ${command.label}.` };
   }
   if (command.kind === 'calculate') {
     try {
